@@ -25,4 +25,4 @@ A simple utility to quickly convert blocks of text to various common cases.
 ## **Live Tool**
 
 You can access the live tool here:
-👉 [**Case Converter**](https://itxcrusher.github.io/case-converter/)
+👉 [**Case Converter**](https://crusher-labs.github.io/case-converter/)
