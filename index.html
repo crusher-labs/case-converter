@@ -1,205 +1,157 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full" data-theme="minimal" data-theme-lock="minimal" data-mode="light">
+<html lang="en"
+      data-default-theme="minimal"
+      data-theme-lock="minimal"
+      data-default-mode="light"
+      data-default-brand="#0ea5e9">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Case Converter</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-        }
-    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/crusher-ui.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/themes/minimal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/static/tool-shell.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/static/tool-shell.js"></script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        textarea::placeholder {
-            color: #94a3b8; /* slate-400 */
-        }
-        .dark textarea::placeholder {
-            color: #64748b; /* slate-500 */
-        }
-        #hub-bubble {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            width: 56px;
-            height: 56px;
-            background-color: #0ea5e9; /* sky-500 */
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-        }
-        #hub-bubble:hover {
-            transform: scale(1.1);
-            background-color: #0284c7; /* sky-600 */
-        }
-    </style>
-    <script>
-        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        if ((() => { try { const prefs = JSON.parse(localStorage.getItem('crusher_prefs') || '{}'); return localStorage.getItem('crusher_tools_mode_contract') === 'style-switcher-v3' && prefs.mode === 'dark'; } catch { return false; } })()) {
-          document.documentElement.classList.add('dark'); document.documentElement.setAttribute('data-mode', 'dark')
-        } else {
-          document.documentElement.classList.remove('dark'); document.documentElement.setAttribute('data-mode', 'light')
-        }
-    </script>
-    <!-- Crusher UI Kit: published static contract -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/crusher-ui.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/themes/minimal.css">
-    <style id="crusher-tools-framework-bridge">
-        :root {
-            --crusher-style-switcher-top: var(--crusher-spacing-6);
-            --crusher-style-switcher-width: 16.5rem;
-            --crusher-style-switcher-bg: color-mix(in srgb, var(--crusher-background-surface) 94%, transparent);
-            --crusher-style-switcher-shadow: var(--crusher-shadow-xl);
-            --crusher-style-switcher-icon-shadow: var(--crusher-shadow-md);
-            --crusher-style-switcher-color-gap: var(--crusher-spacing-2);
-            --crusher-style-switcher-color-justify: flex-start;
-        }
-        html[data-mode="dark"] { color-scheme: dark; }
-                #theme-toggle { display: none !important; }
-        body {
-            background:
-                radial-gradient(circle at top left, color-mix(in srgb, var(--crusher-color-brand-primary) 14%, transparent), transparent 28rem),
-                var(--crusher-background-canvas) !important;
-            color: var(--crusher-text-primary) !important;
-        }
-        h1, h2, h3 { color: var(--crusher-text-primary) !important; }
-        p, label, .text-slate-400, .text-slate-500, .text-slate-600, .dark\:text-slate-400, .dark\:text-slate-500 {
-            color: var(--crusher-text-secondary) !important;
-        }
-        .text-sky-400, .text-sky-500, .dark\:text-sky-400,
-        a:not(.tool-card):not(#hub-bubble) {
-            color: var(--crusher-color-brand-primary) !important;
-        }
-        .tool-card,
-        main.bg-white,
-        .bg-white,
-        .bg-slate-50,
-        .bg-slate-100,
-        .dark .dark\:bg-slate-700,
-        .dark .dark\:bg-slate-800 {
-            background-color: var(--crusher-background-surface) !important;
-            border-color: var(--crusher-border-primary) !important;
-            box-shadow: var(--crusher-shadow-lg) !important;
-        }
-        input, textarea, select,
-        .dark .dark\:bg-slate-700:is(input, textarea, select) {
-            background-color: var(--crusher-background-muted) !important;
-            color: var(--crusher-text-primary) !important;
-            border-color: var(--crusher-border-primary) !important;
-        }
-        input:focus, textarea:focus, select:focus {
-            border-color: var(--crusher-color-brand-primary) !important;
-            box-shadow: 0 0 0 var(--crusher-focus-width) color-mix(in srgb, var(--crusher-color-brand-primary) 26%, transparent) !important;
-        }
-        button:not(#theme-toggle):not(.style-switcher-toggler):not(.day-night):not(.swatch):not(.dialect-btn),
-        .case-btn {
-            background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 12%, var(--crusher-background-surface)) !important;
-            color: var(--crusher-text-primary) !important;
-            border-color: color-mix(in srgb, var(--crusher-color-brand-primary) 28%, var(--crusher-border-primary)) !important;
-        }
-        button:not(#theme-toggle):not(.style-switcher-toggler):not(.day-night):not(.swatch):not(.dialect-btn):hover,
-        .case-btn:hover,
-        .tool-card:hover {
-            background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 18%, var(--crusher-background-surface)) !important;
-            border-color: var(--crusher-color-brand-primary) !important;
-        }
-        #hub-bubble {
-            background-color: var(--crusher-color-brand-primary) !important;
-            box-shadow: var(--crusher-shadow-lg) !important;
-        }
-        #hub-bubble:hover {
-            background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 82%, black) !important;
-            transform: translateY(-2px) scale(1.03) !important;
-        }
-</style>
-</head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 flex items-center justify-center min-h-full p-4 antialiased transition-colors duration-300">
-    
-    <!-- Theme Toggle Button -->
-    <div class="absolute top-4 right-4 sm:top-6 sm:right-6 z-10">
-        <button id="theme-toggle" type="button" title="Toggle light/dark mode" class="bg-white dark:bg-slate-800 p-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-sky-500 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200 shadow-md">
-            <svg id="theme-toggle-sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun hidden"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-            <svg id="theme-toggle-moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon hidden"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-        </button>
-    </div>
+        body { font-family: 'Inter', sans-serif; }
 
-    <div class="w-full max-w-3xl mx-auto">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-slate-900 dark:text-white">Case Converter</h1>
-            <p class="text-slate-600 dark:text-slate-400 mt-2">Instantly convert text between different letter cases.</p>
+        .tool-stack { display: grid; gap: var(--crusher-spacing-6); max-width: 48rem; margin-inline: auto; }
+        .tool-section { padding: var(--crusher-spacing-6); display: grid; gap: var(--crusher-spacing-6); }
+
+        .tool-textarea-wrap { position: relative; }
+        .tool-textarea-wrap textarea.crusher-tool-control { min-block-size: 16rem; padding: var(--crusher-spacing-4); resize: vertical; }
+        .tool-stats {
+            position: absolute; inset-block-end: var(--crusher-spacing-3); inset-inline-end: var(--crusher-spacing-4);
+            font-size: var(--crusher-font-size-xs); font-family: 'JetBrains Mono', monospace;
+            color: var(--crusher-text-secondary);
+            pointer-events: none;
+        }
+
+        .case-section-title { margin: 0 0 var(--crusher-spacing-4); font-size: var(--crusher-font-size-lg); color: var(--crusher-text-primary); }
+        .case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--crusher-spacing-3); }
+        @media (min-width: 640px) { .case-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+        .case-btn {
+            padding: var(--crusher-spacing-3) var(--crusher-spacing-4);
+            border-radius: var(--crusher-radius-lg);
+            border: 1px solid var(--crusher-border-primary);
+            background: var(--crusher-background-muted);
+            color: var(--crusher-text-primary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard),
+                        border-color var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard);
+        }
+        .case-btn:hover { background: color-mix(in srgb, var(--crusher-color-brand-primary) 18%, var(--crusher-background-surface)); border-color: var(--crusher-color-brand-primary); }
+
+        .util-row { display: grid; gap: var(--crusher-spacing-3); padding-block-start: var(--crusher-spacing-4); }
+        @media (min-width: 640px) { .util-row { grid-template-columns: 1fr 1fr; } }
+        .util-btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: var(--crusher-spacing-2);
+            padding: var(--crusher-spacing-3) var(--crusher-spacing-4);
+            border-radius: var(--crusher-radius-lg);
+            border: 0;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--crusher-shadow-md);
+            transition: transform var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard),
+                        box-shadow var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard);
+        }
+        .util-btn:hover { transform: translateY(-1px); box-shadow: var(--crusher-shadow-lg); }
+        .util-copy { background: #16a34a; }
+        .util-copy:hover { background: #15803d; }
+        .util-clear { background: #dc2626; }
+        .util-clear:hover { background: #b91c1c; }
+
+        .copy-message {
+            text-align: center; margin: 0;
+            min-block-size: 1.25rem;
+            color: #16a34a;
+            font-size: var(--crusher-font-size-sm);
+            opacity: 0;
+            transition: opacity var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard);
+        }
+        .copy-message[data-visible="true"] { opacity: 1; }
+    </style>
+</head>
+<body class="crusher-tool-page">
+
+    <main class="crusher-tool-shell">
+        <header class="crusher-tool-header">
+            <h1 class="crusher-tool-title">Case Converter</h1>
+            <p class="crusher-tool-lede">Instantly convert text between different letter cases.</p>
         </header>
 
-        <main class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl dark:shadow-2xl space-y-8 border border-slate-200 dark:border-slate-700">
-            
-            <!-- Text Area -->
-            <div class="relative">
-                <textarea id="text-input" class="w-full h-64 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-white rounded-lg p-4 border-2 border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-colors resize-y" placeholder="Type or paste your text here..."></textarea>
-                <div id="stats" class="absolute bottom-3 right-4 text-xs font-mono text-slate-400 dark:text-slate-500">
-                    <span id="char-count">0</span> characters | <span id="word-count">0</span> words
+        <div class="tool-stack">
+            <section class="crusher-tool-surface tool-section">
+                <div class="tool-textarea-wrap">
+                    <textarea id="text-input" class="crusher-tool-control" placeholder="Type or paste your text here..."></textarea>
+                    <div id="stats" class="tool-stats">
+                        <span id="char-count">0</span> characters | <span id="word-count">0</span> words
+                    </div>
                 </div>
-            </div>
 
-            <!-- Conversion Buttons -->
-            <div>
-                <h2 class="text-lg font-semibold text-slate-800 dark:text-white mb-4">Convert Case</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <button id="btn-upper" class="case-btn bg-slate-100 dark:bg-slate-700 hover:bg-sky-500 dark:hover:bg-sky-600 text-slate-700 dark:text-slate-200 font-medium py-3 px-4 rounded-lg transition-colors">UPPERCASE</button>
-                    <button id="btn-lower" class="case-btn bg-slate-100 dark:bg-slate-700 hover:bg-sky-500 dark:hover:bg-sky-600 text-slate-700 dark:text-slate-200 font-medium py-3 px-4 rounded-lg transition-colors">lowercase</button>
-                    <button id="btn-title" class="case-btn bg-slate-100 dark:bg-slate-700 hover:bg-sky-500 dark:hover:bg-sky-600 text-slate-700 dark:text-slate-200 font-medium py-3 px-4 rounded-lg transition-colors">Title Case</button>
-                    <button id="btn-sentence" class="case-btn bg-slate-100 dark:bg-slate-700 hover:bg-sky-500 dark:hover:bg-sky-600 text-slate-700 dark:text-slate-200 font-medium py-3 px-4 rounded-lg transition-colors">Sentence case</button>
+                <div>
+                    <h2 class="case-section-title">Convert Case</h2>
+                    <div class="case-grid">
+                        <button id="btn-upper" type="button" class="case-btn">UPPERCASE</button>
+                        <button id="btn-lower" type="button" class="case-btn">lowercase</button>
+                        <button id="btn-title" type="button" class="case-btn">Title Case</button>
+                        <button id="btn-sentence" type="button" class="case-btn">Sentence case</button>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Utility Buttons -->
-            <div class="flex flex-col sm:flex-row gap-3 pt-4">
-                <button id="btn-copy" class="w-full sm:w-auto flex-grow bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    Copy to Clipboard
-                </button>
-                <button id="btn-clear" class="w-full sm:w-auto flex-grow bg-red-600 hover:bg-red-500 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                    Clear Text
-                </button>
-            </div>
-             <p id="copy-message" class="text-green-500 dark:text-green-400 text-center mt-2 h-5 transition-opacity duration-300 opacity-0">Text copied to clipboard!</p>
 
-        </main>
-    </div>
+                <div class="util-row">
+                    <button id="btn-copy" type="button" class="util-btn util-copy">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        Copy to Clipboard
+                    </button>
+                    <button id="btn-clear" type="button" class="util-btn util-clear">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        Clear Text
+                    </button>
+                </div>
+                <p id="copy-message" class="copy-message">Text copied to clipboard!</p>
+            </section>
+        </div>
+    </main>
+
+    <a href="https://tools.muhammadhassaanjaved.com/" id="hub-bubble" class="crusher-tool-fab" title="View All Tools" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+    </a>
+
+    <crusher-style-switcher
+      default-theme="minimal"
+      default-brand="#0ea5e9"
+      hide-themes
+      hide-theme-color></crusher-style-switcher>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/crusher-ui.standalone.esm.js"></script>
 
     <script>
-        // DOM element references
         const textInput = document.getElementById('text-input');
         const charCountEl = document.getElementById('char-count');
         const wordCountEl = document.getElementById('word-count');
         const copyMessageEl = document.getElementById('copy-message');
 
-        // Conversion buttons
         const btnUpper = document.getElementById('btn-upper');
         const btnLower = document.getElementById('btn-lower');
         const btnTitle = document.getElementById('btn-title');
         const btnSentence = document.getElementById('btn-sentence');
 
-        // Utility buttons
         const btnCopy = document.getElementById('btn-copy');
         const btnClear = document.getElementById('btn-clear');
 
-        // --- Event Listeners ---
-
         textInput.addEventListener('input', () => {
             const text = textInput.value;
-            // Update character count
             charCountEl.textContent = text.length;
-            // Update word count
             const words = text.trim().split(/\s+/).filter(word => word.length > 0);
             wordCountEl.textContent = text.trim() === '' ? 0 : words.length;
         });
@@ -222,158 +174,28 @@
             textInput.value = textInput.value.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
         });
 
-        btnCopy.addEventListener('click', () => {
-            if (textInput.value) {
-                 // Use execCommand for broader compatibility within iFrames
-                const dummy = document.createElement("textarea");
+        btnCopy.addEventListener('click', async () => {
+            if (!textInput.value) return;
+            try {
+                await navigator.clipboard.writeText(textInput.value);
+            } catch {
+                const dummy = document.createElement('textarea');
                 document.body.appendChild(dummy);
                 dummy.value = textInput.value;
                 dummy.select();
-                document.execCommand("copy");
+                document.execCommand('copy');
                 document.body.removeChild(dummy);
-
-                copyMessageEl.style.opacity = '1';
-                setTimeout(() => {
-                    copyMessageEl.style.opacity = '0';
-                }, 2000);
             }
+            copyMessageEl.dataset.visible = 'true';
+            setTimeout(() => { copyMessageEl.dataset.visible = 'false'; }, 2000);
         });
-        
+
         btnClear.addEventListener('click', () => {
             textInput.value = '';
-            // Manually trigger the input event to reset stats
             textInput.dispatchEvent(new Event('input'));
         });
 
-        // Initialize stats on load
         textInput.dispatchEvent(new Event('input'));
-
-        // Theme Toggle Logic
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const sunIcon = document.getElementById('theme-toggle-sun-icon');
-        const moonIcon = document.getElementById('theme-toggle-moon-icon');
-
-        const updateIcons = () => {
-            if (document.documentElement.classList.contains('dark')) {
-                sunIcon.classList.remove('hidden');
-                moonIcon.classList.add('hidden');
-            } else {
-                sunIcon.classList.add('hidden');
-                moonIcon.classList.remove('hidden');
-            }
-        };
-
-        themeToggleBtn.addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.theme = 'dark';
-            } else {
-                localStorage.theme = 'light';
-            }
-            updateIcons();
-        });
-
-        updateIcons();
     </script>
-    
-    <!-- Floating Hub Button Snippet -->
-    <a href="https://tools.muhammadhassaanjaved.com/" id="hub-bubble" title="View All Tools" target="_blank" rel="noopener noreferrer">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="7" height="7"></rect>
-            <rect x="14" y="3" width="7" height="7"></rect>
-            <rect x="14" y="14" width="7" height="7"></rect>
-            <rect x="3" y="14" width="7" height="7"></rect>
-        </svg>
-    </a>
-    <!-- End of Snippet -->
-    <crusher-style-switcher default-theme="minimal" hide-themes hide-theme-color></crusher-style-switcher>
-    <script id="crusher-minimal-mode-lock">
-      (() => {
-        const root = document.documentElement;
-        const CONTRACT_VERSION = 'style-switcher-v3';
-        const DEFAULT_BRAND = '#0ea5e9';
-        const SWITCHER_COLORS = {
-          sky: '#0ea5e9',
-          emerald: '#10b981',
-          violet: '#8b5cf6',
-          orange: '#f97316',
-          pink: '#ec4899'
-        };
-        const readPrefs = () => {
-          try { return JSON.parse(localStorage.getItem('crusher_prefs') || '{}'); } catch { return {}; }
-        };
-        const writePrefs = (prefs) => {
-          try { localStorage.setItem('crusher_prefs', JSON.stringify(prefs)); } catch {}
-        };
-        const normalizeMode = (mode) => mode === 'dark' ? 'dark' : 'light';
-        const ensurePrefs = (forcedMode) => {
-          const prefs = readPrefs();
-          const currentContract = (() => { try { return localStorage.getItem('crusher_tools_mode_contract'); } catch { return ''; } })();
-          if (currentContract !== CONTRACT_VERSION) {
-            prefs.mode = 'light';
-            try { localStorage.setItem('crusher_tools_mode_contract', CONTRACT_VERSION); } catch {}
-          } else if (forcedMode === 'dark' || forcedMode === 'light') {
-            prefs.mode = forcedMode;
-          } else {
-            prefs.mode = normalizeMode(prefs.mode);
-          }
-          prefs.theme = 'minimal';
-          if (!prefs.brand) prefs.brand = DEFAULT_BRAND;
-          try { localStorage.theme = prefs.mode; } catch {}
-          writePrefs(prefs);
-          return prefs;
-        };
-        const sync = (forcedMode) => {
-          const prefs = ensurePrefs(forcedMode);
-          root.setAttribute('data-theme', 'minimal');
-          root.setAttribute('data-theme-lock', 'minimal');
-          root.setAttribute('data-mode', prefs.mode);
-          root.classList.toggle('dark', prefs.mode === 'dark');
-          root.style.setProperty('--crusher-color-brand-primary', prefs.brand || DEFAULT_BRAND);
-        };
-        const patchSwitcher = async () => {
-          await customElements.whenDefined('crusher-style-switcher');
-          const switcher = document.querySelector('crusher-style-switcher');
-          if (!switcher) return;
-          switcher.hideThemes = true;
-          switcher.hideThemeColor = true;
-          switcher.colors = SWITCHER_COLORS;
-          switcher._cacheSwatchColors?.();
-          switcher.requestUpdate?.();
-          await switcher.updateComplete?.catch?.(() => {});
-          const applyShadowFixes = () => {
-            const shadow = switcher.shadowRoot;
-            if (!shadow) return;
-            shadow.querySelectorAll('button').forEach((button) => { button.style.cursor = 'pointer'; });
-            shadow.querySelectorAll('.colors').forEach((row) => {
-              row.style.flexWrap = 'nowrap';
-              row.style.justifyContent = 'flex-start';
-              row.style.gap = '0.45rem';
-            });
-            shadow.querySelectorAll('.swatch').forEach((swatch) => {
-              swatch.style.inlineSize = '1.65rem';
-              swatch.style.blockSize = '1.65rem';
-              swatch.style.flex = '0 0 auto';
-              swatch.style.cursor = 'pointer';
-            });
-          };
-          applyShadowFixes();
-          const originalRequestUpdate = switcher.requestUpdate?.bind(switcher);
-          if (originalRequestUpdate && !switcher.__crusherToolsPatched) {
-            switcher.__crusherToolsPatched = true;
-            switcher.requestUpdate = (...args) => {
-              const result = originalRequestUpdate(...args);
-              requestAnimationFrame(applyShadowFixes);
-              return result;
-            };
-          }
-        };
-        sync();
-        window.addEventListener('crusher:themechange', (event) => sync(event.detail?.mode));
-        document.getElementById('theme-toggle')?.addEventListener('click', () => requestAnimationFrame(() => sync()));
-        patchSwitcher();
-      })();
-    </script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/crusher-ui.standalone.esm.js"></script>
 </body>
 </html>
