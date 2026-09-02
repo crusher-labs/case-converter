@@ -1,28 +1,25 @@
-# **Case Converter**
+# Case Converter
 
-A simple utility to quickly convert blocks of text to various common cases.
+Convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, aLtErNaTiNg and iNVERSE on a printer's California job case: pull a brass drawer label and the sorts light up in their boxes and slide onto the composing stick. Nothing uploaded.
 
----
+Live: <https://crusher-labs.github.io/case-converter/>
 
-## **Features**
+## The world: Type case
 
-* **Multiple Conversions:** Instantly change text to UPPERCASE, lowercase, Title Case, and Sentence case.
-* **One-Click Copy:** Easily copy the converted text to your clipboard.
-* **Clear All:** A quick button to clear the text area and start fresh.
-* **Real-Time:** The tool processes the text right in your browser with no delay.
+This tool is a **world page** (crusher-labs standard since 2026-09-02): the page is a committed physical object from the tool's own world, with its own CSS, fonts and mode. It does not load `crusher-ui-kit` and has no theme switcher. The brief for this world lives in the workspace atlas (`x:/crusher-labs/docs/context/tools-theme-atlas.md`); change the atlas before changing the world.
 
----
+## Privacy
 
-## **How to Use**
+This tool runs entirely in your browser. There is no server. No data is uploaded, no telemetry, no analytics. The only network requests fired are the page-load fetches for Google Fonts; your inputs and outputs never leave the tab. The "Suggest an improvement" form posts to Web3Forms only when you submit it.
 
-1. **Open the Tool:** Navigate to the live URL.
-2. **Enter Text:** Type or paste the text you want to convert into the text area.
-3. **Choose a Case:** Click one of the buttons (e.g., “UPPERCASE”) to apply the conversion.
-4. **Copy Text:** Click the “Copy to Clipboard” button to copy the result.
+## Contract
 
----
+Validated by `tools-hub/scripts/check-static.mjs` (world-page contract: SEO block, CSP, feedback form, hub link, prose + FAQ, no kit pins). Run `npm run check:static` from `repos/tools-hub` before committing.
 
-## **Live Tool**
+## Development
 
-You can access the live tool here:
-👉 [**Case Converter**](https://crusher-labs.github.io/case-converter/)
+Open `index.html` directly in a browser. No build, no dependencies. Verify at 1440 and 390 via Playwright `setViewportSize` before shipping.
+
+## License
+
+MIT.
